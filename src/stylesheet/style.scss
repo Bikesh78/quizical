@@ -15,7 +15,8 @@ body {
 .btn-primary {
   background-color: $secondary-color;
   color: white;
-  font-size: 20px;
+  font-size: 16px;
+  line-height: 1.7;
   padding: 16px 28px;
   border-radius: 15px;
   outline: transparent;
@@ -41,4 +42,46 @@ body {
       color: $primary-color;
     }
   }
+}
+main {
+  padding: 40px 75px;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  .btn-primary {
+    font-size: 12px;
+    line-height: 1.17;
+    padding: 11px 20px;
+  }
+}
+.card {
+  margin-bottom: 30px;
+  p {
+    font-family: "Karla", sans-serif;
+    font-size: 16px;
+    line-height: 1.17;
+    font-weight: 700;
+    color: $primary-color;
+  }
+  .card--question {
+    margin-bottom: 15px;
+  }
+  .card--answers {
+    display: flex;
+    gap: 13px;
+  }
+}
+.btn-secondary {
+  font-size: 12px;
+  line-height: 1.17;
+  color: $secondary-color;
+  background-color: transparent;
+  border-radius: 8px;
+  border: solid 1px $secondary-color;
+  padding: 5px 16px;
+  cursor: pointer;
+}
+button.selected {
+  background-color: #d6dbf5;
+  // background-color: green;
 }

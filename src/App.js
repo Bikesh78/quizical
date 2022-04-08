@@ -1,9 +1,69 @@
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+//Components
 import StartScreen from "./Components/StartScreen";
+import Quiz from "./Components/Quiz";
+//stylesheet
 import "./stylesheet/style.scss";
+//package
+import axios from "axios";
+import { shuffle } from "lodash";
+import { nanoid } from "nanoid";
+
 function App() {
+  const [quizData, setQuizData] = useState("");
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const response = await axios.get(
+          "https://opentdb.com/api.php?amount=10&type=multiple"
+        );
+        // await setQuizData(response.data.results);
+        const triviaData = await response.data.results.map((item) => {
+          const answerArray = [item.correct_answer, ...item.incorrect_answers];
+          const answers = answerArray.map((answer) => {
+            return {
+              id: nanoid(),
+              isSelected: false,
+              isCorrect: answer === item.correct_answer ? true : false,
+              answer: answer,
+            };
+          });
+          return {
+            id: nanoid(),
+            question: item.question,
+            answers: shuffle(answers),
+          };
+        });
+        await setQuizData(triviaData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getData();
+  }, []);
+  if (!quizData) {
+    return <p>Loading...</p>;
+  }
   return (
     <>
-      <StartScreen />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<StartScreen />} />
+          {/* <Route path="quiz" element={<Quiz quizData={quizData} />} /> */}
+          <Route
+            path="quiz"
+            element={
+              <Quiz
+                question={quizData[0].question}
+                answers={quizData[0].answers}
+                id={quizData[0].id}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
