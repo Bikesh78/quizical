@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-export default function Quiz({ question, answers, id }) {
+export default function Quiz({ question, answers, id, quizCompleted }) {
+  const [isSelected, setIsSelected] = useState("");
   if (!question) {
     return <p>Loading...</p>;
   }
-  const toggleClass = (e) => {
+  const selectAnswer = (e, item) => {
     // isSelected ? setIsSelected("") : setIsSelected(!isSelected);
-    let siblingNodes = e.target.parentNode.parentNode.childNodes;
+    /* let siblingNodes = e.target.parentNode.parentNode.childNodes;
     siblingNodes.forEach((sibling) => {
       sibling.firstChild.classList.remove("selected");
     });
@@ -15,34 +16,48 @@ export default function Quiz({ question, answers, id }) {
     } else {
       e.target.classList.add("selected");
     }
+    console.log(id); */
+    answers.map((item) => (item.isSelected = false));
+    item.isSelected = true;
+    setIsSelected(item.id);
   };
 
-  /* console.log("id", data.id); */
-
   return (
-    <main>
+    <>
       <div className="card">
         <div className="card--question">
           <p>{question}</p>
         </div>
         <div className="card--answers">
           {answers.map((item) => {
+            // const style ={ item.isSelected? (backgroundColor: "green") : (backgroundColor: "red")}
             return (
+              
               <div className="card--answers--options">
                 <button
+                  // className={`btn-secondary ${
+                  //   isSelected === item.id ? "selected" : ""
+                  // }`}
                   className={`btn-secondary`}
-                  onClick={(e) => toggleClass(e)}
+                  style={{
+                    backgroundColor:
+                      !quizCompleted && item.isSelected === true
+                        ? "#d6dbf5"
+                        : quizCompleted && item.isSelected && item.isCorrect
+                        ? "#94D7A2"
+                        : quizCompleted && item.isSelected && !item.isCorrect
+                        ? "#F8BCBC"
+                        : "",
+                  }}
+                  onClick={(e) => selectAnswer(e, item)}
                 >
-                  {item}
+                  {item.answer}
                 </button>
               </div>
             );
           })}
         </div>
       </div>
-      <div className="button-container">
-        <button className="btn-primary">Check Answsers</button>
-      </div>
-    </main>
+    </>
   );
 }

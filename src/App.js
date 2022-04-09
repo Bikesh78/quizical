@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 //Components
 import StartScreen from "./Components/StartScreen";
-import Quiz from "./Components/Quiz";
+import RenderQuiz from "./Components/RenderQuiz";
 //stylesheet
 import "./stylesheet/style.scss";
 //package
@@ -12,6 +12,7 @@ import { nanoid } from "nanoid";
 
 function App() {
   const [quizData, setQuizData] = useState("");
+  const [quizCompleted, setQuizCompleted] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -46,13 +47,26 @@ function App() {
   if (!quizData) {
     return <p>Loading...</p>;
   }
+  let count = 0;
+  const checkAnswers = () => {
+    quizData.forEach((data) => {
+      data.answers.forEach((answer) => {
+        if (answer.isSelected && answer.isCorrect) {
+          count++;
+        }
+      });
+    });
+    console.log(`You scored ${count} out of 10`);
+    setQuizCompleted(true);
+  };
+  console.log(quizData);
   return (
-    <>
+    <main>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<StartScreen />} />
           {/* <Route path="quiz" element={<Quiz quizData={quizData} />} /> */}
-          <Route
+          {/* <Route
             path="quiz"
             element={
               <Quiz
@@ -61,10 +75,21 @@ function App() {
                 id={quizData[0].id}
               />
             }
+          /> */}
+          <Route
+            path="/quiz"
+            element={
+              <RenderQuiz quizData={quizData} quizCompleted={quizCompleted} />
+            }
           />
         </Routes>
       </BrowserRouter>
-    </>
+      <div className="button-container">
+        <button className="btn-primary" onClick={checkAnswers}>
+          Check Answsers
+        </button>
+      </div>
+    </main>
   );
 }
 
