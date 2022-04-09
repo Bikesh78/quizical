@@ -59,23 +59,11 @@ function App() {
     console.log(`You scored ${count} out of 10`);
     setQuizCompleted(true);
   };
-  console.log(quizData);
   return (
     <main>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<StartScreen />} />
-          {/* <Route path="quiz" element={<Quiz quizData={quizData} />} /> */}
-          {/* <Route
-            path="quiz"
-            element={
-              <Quiz
-                question={quizData[0].question}
-                answers={quizData[0].answers}
-                id={quizData[0].id}
-              />
-            }
-          /> */}
           <Route
             path="/quiz"
             element={

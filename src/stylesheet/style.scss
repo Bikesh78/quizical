@@ -47,7 +47,6 @@ main {
   padding: 40px 75px;
   display: flex;
   flex-direction: column;
-  // align-items: center;
   .btn-primary {
     font-size: 12px;
     line-height: 1.17;
@@ -81,7 +80,6 @@ main {
   padding: 5px 16px;
   cursor: pointer;
 }
-button.selected {
-  background-color: #d6dbf5;
-  // background-color: green;
+button.completed {
+  background-color: #94d7a2;
 }

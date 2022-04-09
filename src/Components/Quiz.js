@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export default function Quiz({ question, answers, id, quizCompleted }) {
   const [isSelected, setIsSelected] = useState("");
@@ -17,9 +17,11 @@ export default function Quiz({ question, answers, id, quizCompleted }) {
       e.target.classList.add("selected");
     }
     console.log(id); */
-    answers.map((item) => (item.isSelected = false));
-    item.isSelected = true;
-    setIsSelected(item.id);
+    if (!quizCompleted) {
+      answers.map((item) => (item.isSelected = false));
+      item.isSelected = true;
+      setIsSelected(item.id);
+    }
   };
 
   return (
@@ -30,21 +32,16 @@ export default function Quiz({ question, answers, id, quizCompleted }) {
         </div>
         <div className="card--answers">
           {answers.map((item) => {
-            // const style ={ item.isSelected? (backgroundColor: "green") : (backgroundColor: "red")}
             return (
-              
               <div className="card--answers--options">
                 <button
-                  // className={`btn-secondary ${
-                  //   isSelected === item.id ? "selected" : ""
-                  // }`}
-                  className={`btn-secondary`}
+                  className={`btn-secondary ${
+                    quizCompleted && item.isCorrect ? "completed" : ""
+                  }`}
                   style={{
                     backgroundColor:
                       !quizCompleted && item.isSelected === true
                         ? "#d6dbf5"
-                        : quizCompleted && item.isSelected && item.isCorrect
-                        ? "#94D7A2"
                         : quizCompleted && item.isSelected && !item.isCorrect
                         ? "#F8BCBC"
                         : "",
