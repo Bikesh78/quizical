@@ -1,15 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function StartScreen() {
+  let navigate = useNavigate();
+  const pushHistory = () => {
+    navigate("/quiz");
+  };
   return (
     <div className="page-start">
       <div className="header">
         <h3>Quizzical</h3>
       </div>
-      <Link to="/quiz">
-        <button className="btn-primary">Start Quiz</button>
-      </Link>
+
+      <button className="btn-primary" onClick={pushHistory}>
+        Start Quiz
+      </button>
     </div>
   );
 }

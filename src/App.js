@@ -12,7 +12,13 @@ import { nanoid } from "nanoid";
 
 function App() {
   const [quizData, setQuizData] = useState("");
-  const [quizCompleted, setQuizCompleted] = useState(false);
+  const decodeHtmlCharCodes = (str) => {
+    str = str.replace(/&quot;/g, `"`);
+    str = str.replace(/&amp;/g, `&`);
+    return str.replace(/(&#(\d+);)/g, (match, capture, charCode) =>
+      String.fromCharCode(charCode)
+    );
+  };
 
   useEffect(() => {
     async function getData() {
@@ -28,12 +34,12 @@ function App() {
               id: nanoid(),
               isSelected: false,
               isCorrect: answer === item.correct_answer ? true : false,
-              answer: answer,
+              answer: decodeHtmlCharCodes(answer),
             };
           });
           return {
             id: nanoid(),
-            question: item.question,
+            question: decodeHtmlCharCodes(item.question),
             answers: shuffle(answers),
           };
         });
@@ -47,18 +53,7 @@ function App() {
   if (!quizData) {
     return <p>Loading...</p>;
   }
-  let count = 0;
-  const checkAnswers = () => {
-    quizData.forEach((data) => {
-      data.answers.forEach((answer) => {
-        if (answer.isSelected && answer.isCorrect) {
-          count++;
-        }
-      });
-    });
-    console.log(`You scored ${count} out of 10`);
-    setQuizCompleted(true);
-  };
+
   return (
     <main>
       <BrowserRouter>
@@ -67,16 +62,11 @@ function App() {
           <Route
             path="/quiz"
             element={
-              <RenderQuiz quizData={quizData} quizCompleted={quizCompleted} />
+              <RenderQuiz quizData={quizData} setQuizData={setQuizData} />
             }
           />
         </Routes>
       </BrowserRouter>
-      <div className="button-container">
-        <button className="btn-primary" onClick={checkAnswers}>
-          Check Answsers
-        </button>
-      </div>
     </main>
   );
 }
