@@ -51,7 +51,7 @@ function App() {
     getData();
   }, []);
   if (!quizData) {
-    return <p>Loading...</p>;
+    return <div className="loader"></div>;
   }
 
   return (
