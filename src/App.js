@@ -56,9 +56,10 @@ function App() {
 
   return (
     <main>
+      {/* <BrowserRouter basename="/quizical"> */}
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<StartScreen />} />
+          <Route exact path="/" element={<StartScreen />} />
           <Route
             path="/quiz"
             element={

@@ -111,7 +111,7 @@ button.completed {
   border-radius: 50%;
   border: 15px solid lightgrey;
   border-top: 15px solid $secondary-color;
-  animation: load 2s infinite;
+  animation: load 2s linear infinite;
 }
 @keyframes load {
   0% {
